@@ -1,0 +1,21 @@
+{
+  "name": "geolocation",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "author": "nicklin",
+  "license": "MIT",
+  "scripts": {
+    "build": "yarn run build:h5 && yarn run build:wx",
+    "build:h5": "NODE_ENV=production rollup -c --environment h5",
+    "build:wx": "NODE_ENV=production rollup -c --environment wx",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-preset-latest": "^6.24.1",
+    "rollup-plugin-babel": "3",
+    "rollup-plugin-node-resolve": "^4.0.0",
+    "rollup-plugin-uglify": "4"
+  }
+}
