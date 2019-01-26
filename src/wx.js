@@ -15,7 +15,7 @@ const instance = {
 
 instance.location = new WXMiniAppLocation(instance.options)
 
-const methods = ['start', 'ready', 'isready']
+const methods = ['start', 'ready']
 
 methods.forEach(method => {
   Object.defineProperty(instance, method, {
@@ -25,6 +25,16 @@ methods.forEach(method => {
       return instance.location[method]
     }
   })
+})
+Object.defineProperty(instance, 'isready', {
+  enumerable: true,
+  configurable: true,
+  get() {
+    return instance.location[method]
+  },
+  set(val) {
+    instance.location.isready = val
+  }
 })
 
 export default instance
