@@ -15,11 +15,11 @@ export default class WXMiniAppLocation extends Location {
               _this.isready = true
               success && success()
             },
-            fail(e) {
+            fail(err) {
               _this.isready = false
-              const err = new Error(e.errMsg)
-              erro.code = 401
-              fail && fail(err)
+              const error = new Error(err.errMsg)
+              error.code = 401
+              fail && fail(error)
             }
           })
         } else {
@@ -37,10 +37,10 @@ export default class WXMiniAppLocation extends Location {
         success(res) {
           resolve(res)
         },
-        fail(error) {
-          const err = new Error(error.errMsg)
-          err.code = 500
-          reject(err)
+        fail(err) {
+          const error = new Error(err.errMsg)
+          error.code = 500
+          reject(error)
         }
       })
     })
