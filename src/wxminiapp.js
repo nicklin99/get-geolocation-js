@@ -15,9 +15,11 @@ export default class WXMiniAppLocation extends Location {
               _this.isready = true
               success && success()
             },
-            fail() {
+            fail(e) {
               _this.isready = false
-              fail && fail()
+              const err = new Error(e.errMsg)
+              erro.code = 401
+              fail && fail(err)
             }
           })
         } else {
@@ -36,7 +38,9 @@ export default class WXMiniAppLocation extends Location {
           resolve(res)
         },
         fail(error) {
-          reject(error)
+          const err = new Error(error.errMsg)
+          err.code = 500
+          reject(err)
         }
       })
     })
@@ -44,7 +48,6 @@ export default class WXMiniAppLocation extends Location {
 
   start() {
     if (!this.isready) {
-      // throw new Error('调用前需要 用户授权 scope.userLocation')
       return new Promise((resolve, reject) => {
         this.ready(() => {
           this.getLocation().then(resolve).catch(reject)
