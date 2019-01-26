@@ -8,20 +8,25 @@ export default class WXMiniAppLocation extends Location {
     const _this = this
     wx.getSetting({
       success(res) {
-        if (!res.authSetting[scope]) {
-          wx.authorize({
-            scope,
-            success() {
-              _this.isready = true
-              success && success()
-            },
-            fail(err) {
-              _this.isready = false
-              const error = new Error(err.errMsg)
-              error.code = 401
-              fail && fail(error)
-            }
-          })
+        const isGranted = res.authSetting[scope]
+        if (!isGranted) {
+          if (isGranted === false) {
+            fail && fail(isGranted) // 拒绝授权
+          } else {
+            wx.authorize({
+              scope,
+              success() {
+                _this.isready = true
+                success && success()
+              },
+              fail(err) {
+                _this.isready = false
+                const error = new Error(err.errMsg)
+                error.code = 401 // 拒绝了授权
+                fail && fail(error)
+              }
+            })
+          }
         } else {
           _this.isready = true
           success && success()
