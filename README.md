@@ -50,10 +50,26 @@ BrowserLocation.start().then(res => {
 ### 小程序获取地理位置
 
 ```js
-import WXMiniAppLocation from 'dist/wx'
+import location from 'dist/wx'
+
+location.start().then(data => {
+    
+}).catch(e => {
+    // 拒绝授权，打开设置
+    if (!e) {
+        return wx.openSetting()
+    }
+
+    if (e.code === 401) {
+        // 拒绝授权无法获取地理位置
+    }
+
+    if (e.code === 500) {
+        // 获取失败
+    }
+})
 ```
 
-调用方法一致
 
 ## 构建
 
