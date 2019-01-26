@@ -15,7 +15,7 @@ const instance = {
 
 instance.location = new WXMiniAppLocation(instance.options)
 
-const methods = ['start', 'ready']
+const methods = ['start', 'ready', 'getLocation']
 
 methods.forEach(method => {
   Object.defineProperty(instance, method, {
