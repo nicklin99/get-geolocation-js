@@ -30,7 +30,7 @@ Object.defineProperty(instance, 'isready', {
   enumerable: true,
   configurable: true,
   get() {
-    return instance.location[method]
+    return instance.location.isready
   },
   set(val) {
     instance.location.isready = val
