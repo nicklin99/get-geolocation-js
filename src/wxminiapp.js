@@ -4,7 +4,7 @@ const scope = 'scope.userLocation'
 
 export default class WXMiniAppLocation extends Location {
 
-  ready(callback) {
+  ready(success, fail) {
     const _this = this
     wx.getSetting({
       success(res) {
@@ -12,28 +12,26 @@ export default class WXMiniAppLocation extends Location {
           wx.authorize({
             scope,
             success() {
-              _this.grant = true
               _this.isready = true
-              callback && callback()
+              success && success()
             },
             fail() {
-              _this.grant = false
               _this.isready = false
+              fail && fail()
             }
           })
         } else {
           _this.isready = true
-          _this.grant = true
+          success && success()
         }
       }
     })
   }
 
-  start() {
-    const type = this.type
+  getLocation() {
     return new Promise((resolve, reject) => {
       wx.getLocation({
-        type,
+        type: this.type,
         success(res) {
           resolve(res)
         },
@@ -42,5 +40,18 @@ export default class WXMiniAppLocation extends Location {
         }
       })
     })
+  }
+
+  start() {
+    if (!this.isready) {
+      // throw new Error('调用前需要 用户授权 scope.userLocation')
+      return new Promise((resolve, reject) => {
+        this.ready(() => {
+          this.getLocation().then(resolve).catch(reject)
+        }, reject)
+      })
+    } else {
+      return this.getLocation()
+    }
   }
 }

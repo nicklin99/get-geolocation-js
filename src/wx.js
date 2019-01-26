@@ -22,9 +22,6 @@ methods.forEach(method => {
     enumerable: true,
     configurable: true,
     get() {
-      if (!instance.isready) {
-        throw new Error('no ready')
-      }
       return instance.location[method]
     }
   })
