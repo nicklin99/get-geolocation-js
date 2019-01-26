@@ -8,33 +8,7 @@ const options = {
   type: 'wgs84' // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
 }
 
-const instance = {
-  location: null,
-  options,
-}
 
-instance.location = new WXMiniAppLocation(instance.options)
-
-const methods = ['start', 'ready', 'getLocation']
-
-methods.forEach(method => {
-  Object.defineProperty(instance, method, {
-    enumerable: true,
-    configurable: true,
-    get() {
-      return instance.location[method]
-    }
-  })
-})
-Object.defineProperty(instance, 'isready', {
-  enumerable: true,
-  configurable: true,
-  get() {
-    return instance.location.isready
-  },
-  set(val) {
-    instance.location.isready = val
-  }
-})
+const instance = new WXMiniAppLocation(options)
 
 export default instance
